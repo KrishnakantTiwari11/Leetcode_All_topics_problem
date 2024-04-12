@@ -4,9 +4,13 @@ public:
         int n = digits.size() - 1;
         digits[n]++;
         
-        for (int i = n; i > 0 && digits[i] == 10; i--) {
-            digits[i] = 0;
+        for (int i = n; i > 0 ; i--) {
+            if(digits[i]==10)
+            {
+                digits[i] = 0;
             digits[i - 1]++;
+            }
+            
         }
         
         if (digits[0] == 10) {
