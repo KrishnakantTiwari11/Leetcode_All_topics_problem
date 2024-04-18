@@ -12,14 +12,14 @@ public:
             {
                 if(grid[i][j]==1)
                 {
-                    ans=ans+1;
+                    ans+=1;
                     if(j!=0 && grid[i][j-1]==1)
                     {
-                        min=min+1;
+                        min+=1;
                     }
                     if(i!=0 && grid[i-1][j]==1)
                     {
-                        min=min+1;
+                        min+=1;
                     }
                     
                     
