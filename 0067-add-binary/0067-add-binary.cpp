@@ -1,28 +1,29 @@
 class Solution {
 public:
     string addBinary(string a, string b) {
-        string ans;
         int i=0;
         int carry=0;
-        reverse(begin(a),end(a));
-        reverse(begin(b),end(b));
-        while(i<a.size() and i<b.size()){
-            ans+=((a[i]!=b[i] and !carry) or (a[i]==b[i] and carry))?'1':'0';
-            carry= ((a[i]=='1' and b[i]=='1') or (a[i]!=b[i] and carry));
+        string res="";
+        
+        int alen=a.length();
+        int blen=b.length();
+        while(i<alen || i<blen || carry!=0)
+        {
+            int x=0;
+            if(i<alen && a[alen-i-1]=='1')
+            {
+                x=1;
+            }
+            int y=0;
+            if(i<blen && b[blen-i-1]=='1')
+            {
+                y=1;
+            }
+            res=to_string((x+y+carry)%2)+res;
+            carry=(x+y+carry)/2;
             i++;
         }
-        while(i<a.size()){
-            ans+=((a[i]=='1' and carry) or (a[i]=='0' and !carry))?'0':'1';
-            carry=(a[i]=='1' and carry);
-            i++;
-        }
-         while(i<b.size()){
-            ans+=((b[i]=='1' and carry) or (b[i]=='0' and !carry))?'0':'1';
-            carry=(b[i]=='1' and carry);
-            i++;
-        }
-        if(carry)ans+='1';
-        reverse(ans.begin(),ans.end());
-        return ans;
+        return res;
+        
     }
 };
