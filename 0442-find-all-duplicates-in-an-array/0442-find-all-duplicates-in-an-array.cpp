@@ -6,12 +6,17 @@ public:
         {
             return {};
         }
-       sort(nums.begin(),nums.end());
-        for(int i=0;i<nums.size()-1;i++)
+        unordered_map<int,int>freq;
+        for(int i=0;i<nums.size();i++)
         {
-            if(nums[i]==nums[i+1])
+            freq[nums[i]]++;
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            if(freq[nums[i]]==2)
             {
-                ans.push_back(nums[i]);
+                   ans.push_back(nums[i]);
+                   freq[nums[i]]--;
             }
         }
         return ans;
