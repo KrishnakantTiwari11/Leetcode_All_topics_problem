@@ -5,9 +5,9 @@ public:
         int m=-1;
         for(int i=n-1;i>=0;i--)
         {
-            int curr=arr[i];
+            int cur=arr[i];
             arr[i]=m;
-            m=max(m,curr);
+            m=max(m,cur);
         }
         return arr;
     }
