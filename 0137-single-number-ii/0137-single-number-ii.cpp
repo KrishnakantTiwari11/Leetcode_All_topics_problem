@@ -1,20 +1,18 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        unordered_map<int,int>hash;
-        int ans=0;
-        for(auto&num:nums)
-        {
-            hash[num]++;
+        unordered_map<int, int> m;
+        
+        for(auto x: nums){
+            m[x]++;
         }
-        for(auto &[x,y]:hash)
-        {
-            if(y==1)
-            {
-               ans=x;
-                break;
+
+        for(auto x: m){
+            if(x.second == 1){
+                return x.first;
             }
         }
-        return ans;
+        
+        return -1;
     }
 };
