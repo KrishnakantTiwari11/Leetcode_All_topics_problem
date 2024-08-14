@@ -1,29 +1,27 @@
-#include <string>
-#include <vector>
-
 class Solution {
 public:
-    bool checkInclusion(std::string s1, std::string s2) {
-        int len1 = s1.size(), len2 = s2.size();
-        if (len1 > len2) {
+    bool checkInclusion(string s1, string s2) {
+        int l1=s1.size();
+        int l2=s2.size();
+        if(l2<l1)
+        {
             return false;
         }
-
-        std::vector<int> s1Freq(26, 0), s2Freq(26, 0);
-
-        for (int i = 0; i < len1; ++i) {
-            s1Freq[s1[i] - 'a']++;
-            s2Freq[s2[i] - 'a']++;
+        vector<int>vec1(26,0),vec2(26,0);
+        for(int i=0;i<l1;i++)
+        {
+            vec1[s1[i]-'a']++;
+            vec2[s2[i]-'a']++;
         }
-
-        for (int i = len1; i < len2; ++i) {
-            if (s1Freq == s2Freq) {
+        for(int i=l1;i<l2;i++)
+        {
+            if(vec1==vec2)
+            {
                 return true;
             }
-            s2Freq[s2[i] - 'a']++;
-            s2Freq[s2[i - len1] - 'a']--;
+            vec2[s2[i]-'a']++;
+            vec2[s2[i-l1]-'a']--;
         }
-
-        return s1Freq == s2Freq;
+        return vec1==vec2;
     }
 };
