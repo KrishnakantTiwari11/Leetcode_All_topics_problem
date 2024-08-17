@@ -5,7 +5,7 @@ public:
         int level=0,water=0;
         while(l<r)
         {
-            if(height[l]<height[r])
+            if(height[l]<=height[r])
             {
                 level=max(level,height[l]);
                 water+=level-height[l];
