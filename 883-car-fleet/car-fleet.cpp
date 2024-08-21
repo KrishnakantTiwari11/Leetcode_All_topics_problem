@@ -1,3 +1,8 @@
+#include <vector>
+#include <stack>
+#include <algorithm>
+#include <utility>
+
 class Solution {
 public:
     int carFleet(int target, vector<int>& position, vector<int>& speed) {
@@ -5,24 +10,26 @@ public:
         if (n == 0) return 0;
         if (n == 1) return 1;
         
-        vector<pair<int, double>> car(n);
+        vector<pair<int, double>> cars(n);
         
         for (int i = 0; i < n; i++) {
             double timeToTarget = (double)(target - position[i]) / speed[i];
-            car[i] = {position[i], timeToTarget};
+            cars[i] = {position[i], timeToTarget};
         }
         
-        sort(car.begin(), car.end(), [](const auto &a, const auto &b) {
+        sort(cars.begin(), cars.end(), [](const auto &a, const auto &b) {
             return a.first > b.first;
         });
         
         int fleets = 0;
-        double currentFleetTime = 0.0;
+        stack<double> st;
         
         for (int i = 0; i < n; i++) {
-            if (car[i].second > currentFleetTime) {
+            double timeToTarget = cars[i].second;
+            
+            if (st.empty() || timeToTarget > st.top()) {
                 fleets++;
-                currentFleetTime = car[i].second;
+                st.push(timeToTarget);
             }
         }
         
