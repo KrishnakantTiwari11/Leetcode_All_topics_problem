@@ -11,12 +11,15 @@ public:
             cars[i] = {position[i], timeToTarget};
         }
         
-        sort(cars.begin(), cars.end());
+        sort(cars.begin(), cars.end(),[](const pair<int,double>&a,const pair<int,double>&b)
+        {
+            return a.first>b.first;
+        });
         
         int fleets = 0;
         stack<double> st;
         
-        for (int i = n - 1; i >= 0; i--) {
+        for (int i = 0; i<n; i++) {
             double timeToTarget = cars[i].second;
             
             if (st.empty() || timeToTarget > st.top()) {
