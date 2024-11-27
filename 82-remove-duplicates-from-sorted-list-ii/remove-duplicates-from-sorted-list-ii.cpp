@@ -17,8 +17,11 @@ public:
                 res->next = curr;
                 res = res->next;
             }
+            else
+            {
             while (curr->next != NULL && curr->val == curr->next->val) {
                 curr = curr->next;
+            }
             }
             curr = curr->next;
         }
