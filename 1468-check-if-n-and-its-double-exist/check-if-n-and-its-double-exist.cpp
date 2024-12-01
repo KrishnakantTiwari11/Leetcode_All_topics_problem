@@ -8,13 +8,10 @@ public:
         }
         for(int i=0;i<arr.size();i++)
         {
-            if(mp[0]<=1)
-            {
-                
-            if(arr[i]==0)
+    
+            if(mp[0]<=1 && arr[i]==0)
             {
                 continue;
-            }
             }
             float j=arr[i]*2;
             if(mp.find(j)!=mp.end())
