@@ -12,14 +12,13 @@ public:
             {
                 temp="";
                 res++;
+                i++;
             }
-            else
-            {
                 temp+=sentence[i];
                 if (temp.length() == sw && temp == searchWord) {
                     return res+1;
                 }
-            }
+            
             i++;
             }
             return -1;
