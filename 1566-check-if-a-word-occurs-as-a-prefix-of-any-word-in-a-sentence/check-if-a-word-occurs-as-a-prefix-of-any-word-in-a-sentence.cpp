@@ -5,7 +5,7 @@ public:
         int n=sentence.length()-1;
         int sw=searchWord.length();
         string temp="";
-        int res=1;
+        int res=0;
         while(i<=n)
         {
             if(sentence[i]==' ')
@@ -17,7 +17,7 @@ public:
             {
                 temp+=sentence[i];
                 if (temp.length() == sw && temp == searchWord) {
-                    return res;
+                    return res+1;
                 }
             }
             i++;
