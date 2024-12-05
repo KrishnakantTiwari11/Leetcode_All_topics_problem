@@ -8,7 +8,7 @@ public:
 
         int n = start.size();
         int p1 = 0, p2 = 0;
-        while (p1 < n || p2 < n) {
+        while (p1 < n && p2 < n) {
             while (p1 < n && start[p1] == '_') p1++;
             while (p2 < n && target[p2] == '_') p2++;
 
