@@ -1,26 +1,30 @@
 class Solution {
 public:
-    bool canChange(string start, string target) {
-        string s1, t1;
-        for (char c : start) if (c != '_') s1 += c;
-        for (char c : target) if (c != '_') t1 += c;
-        if (s1 != t1) return false;
-
-        int n = start.size();
-        int p1 = 0, p2 = 0;
-        while (p1 < n && p2 < n) {
-            while (p1 < n && start[p1] == '_') p1++;
-            while (p2 < n && target[p2] == '_') p2++;
-
-            if (p1 == n && p2 == n) return true;
-            if ((p1 == n || p2 == n) || start[p1] != target[p2]) return false;
-
-            if (start[p1] == 'L' && p1 < p2) return false;
-            if (start[p1] == 'R' && p1 > p2) return false;
-
-            p1++;
-            p2++;
+    bool canChange(string st, string tar) {
+        int n=tar.length();
+        int i=0,j=0;
+        while(i<=n && j<=n){
+            
+            while(i<n && tar[i]=='_') i++;
+            while(j<n && st[j]=='_') j++;
+            
+            if(i==n || j==n){
+                return i==n && j==n;
+            }
+            
+            if(tar[i]!=st[j]) return false;
+            
+            if(tar[i]=='L'){
+                if(j<i) return false;
+            }
+            else{
+                if(i<j) return false;
+            }
+            
+            i++;
+            j++;
         }
         return true;
     }
+	
 };
