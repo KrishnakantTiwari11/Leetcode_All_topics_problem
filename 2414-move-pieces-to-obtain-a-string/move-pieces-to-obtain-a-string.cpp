@@ -1,31 +1,5 @@
 class Solution {
 public:
-    string swap_string(string s) {
-        int n = s.length();
-        for (int i = 0; i < n; i++) {
-            if (s[i] == 'L') {
-                int j = i - 1;
-                while (j >= 0 && (s[j] == '_' || s[j]=='L')) {
-                    j--;
-                }
-                if (j + 1 != i) {
-                    swap(s[i], s[j + 1]);
-                }
-            }
-
-            else if (s[i] == 'R') {
-                int j = i + 1;
-                while (j < n && (s[j] == '_' || s[j]=='R')) {
-                    j++;
-                }
-                if (j - 1 != i) {
-                    swap(s[i], s[j - 1]);
-                }
-            }
-        }
-        return s;
-    }
-
     bool canChange(string start, string target) {
         string s1, t1;
         for (char c : start) if (c != '_') s1 += c;
