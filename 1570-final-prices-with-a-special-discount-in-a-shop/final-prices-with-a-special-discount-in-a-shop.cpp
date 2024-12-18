@@ -6,13 +6,7 @@ public:
         vector<int>res(n);
         for(int i=n-1;i>=0;i--)
         {
-            if(st.empty())
-            {
-                res[i]=prices[i];
-            }
-            else
-            {
-                while(!st.empty() && st.top()>prices[i])
+            while(!st.empty() && st.top()>prices[i])
                 {
                     st.pop();
                 }
@@ -24,7 +18,7 @@ public:
                 {
                     res[i]=prices[i]-st.top();
                 }
-            }
+            
             st.push(prices[i]);
         }
         return res;
