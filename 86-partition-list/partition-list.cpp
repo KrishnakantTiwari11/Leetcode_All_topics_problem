@@ -11,39 +11,30 @@
 class Solution {
 public:
     ListNode* partition(ListNode* head, int x) {
-        queue<int>q1;
-        queue<int>q2;
+        ListNode*l1=new ListNode(0);
+        ListNode*l2=new ListNode(0);
+        ListNode*l1_ptr=l1;
+        ListNode*l2_ptr=l2;
         ListNode*ptr=head;
         while(ptr!=NULL)
         {
             int temp=ptr->val;
             if(temp<x)
             {
-                q1.push(temp);
+                l1_ptr->next=new ListNode(temp);
+                l1_ptr=l1_ptr->next;
             }
             else
             {
-                q2.push(temp);
+                l2_ptr->next=new ListNode(temp);
+                l2_ptr=l2_ptr->next;
+
             }
             ptr=ptr->next;
         }
-
-        ListNode*newNode=new ListNode(0);
-        ListNode*curr=newNode;
-        while(!q1.empty())
-        {
-            int temp=q1.front();
-            q1.pop();
-            curr->next=new ListNode(temp);
-            curr=curr->next;
+        ListNode*temp_ptr=l2;
+        temp_ptr=temp_ptr->next;
+        l1_ptr->next=temp_ptr;
+        return l1->next;
         }
-        while(!q2.empty())
-        {
-            int temp=q2.front();
-            q2.pop();
-            curr->next=new ListNode(temp);
-            curr=curr->next;
-        }
-        return newNode->next;
-    }
 };
