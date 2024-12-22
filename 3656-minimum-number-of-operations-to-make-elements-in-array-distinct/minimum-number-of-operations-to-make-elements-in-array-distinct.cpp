@@ -5,11 +5,10 @@ public:
         int count = 0;
 
         while (true) {
-            set<int> temp(nums.begin() + i, nums.end());
+            unordered_set<int> temp(nums.begin() + i, nums.end());
             if (temp.size() == nums.size() - i) {
                 return count;
             }
-            
             if(i+3>=nums.size()-1)
             {
                 count++;
