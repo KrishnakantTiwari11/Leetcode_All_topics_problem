@@ -15,12 +15,14 @@ public:
          if (root == NULL) {
             return {};
         }
+        int depth=0;
         queue<TreeNode*> q;
         q.push(root);
         vector<vector<int>> res;
         while (!q.empty()) {
             int size = q.size();
             vector<int>level;
+            depth++;
             for (int i = 0; i < size; i++) {
                 TreeNode* node = q.front();
                 q.pop();
@@ -34,6 +36,6 @@ public:
             }
             res.push_back(level);
         }
-        return res.size();
+        return depth;
     }
 };
