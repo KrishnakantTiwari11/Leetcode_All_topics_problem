@@ -1,48 +1,21 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
     TreeNode* reverseOddLevels(TreeNode* root) {
-        if (!root) return nullptr;
-
-        queue<TreeNode*> q;
-        q.push(root);
-        bool isOddLevel = false;
-
-        while (!q.empty()) {
-            int levelSize = q.size();
-            vector<TreeNode*> currentLevel;
-
-            for (int i = 0; i < levelSize; ++i) {
-                TreeNode* node = q.front();
-                q.pop();
-                currentLevel.push_back(node);
-
-                if (node->left) q.push(node->left);
-                if (node->right) q.push(node->right);
-            }
-
-            if (isOddLevel) {
-                int left = 0, right = currentLevel.size() - 1;
-                while (left < right) {
-                    swap(currentLevel[left]->val, currentLevel[right]->val);
-                    ++left;
-                    --right;
-                }
-            }
-
-            isOddLevel = !isOddLevel;
-        }
-
+        DFS(root->left, root->right, 0);
         return root;
+    }
+
+private:
+    void DFS(TreeNode* leftChild, TreeNode* rightChild, int level) {
+        if (leftChild == nullptr || rightChild == nullptr) {
+            return;
+        }
+        if (level % 2 == 0) {
+            int temp = leftChild->val;
+            leftChild->val = rightChild->val;
+            rightChild->val = temp;
+        }
+        DFS(leftChild->left, rightChild->right, level + 1);
+        DFS(leftChild->right, rightChild->left, level + 1);
     }
 };
