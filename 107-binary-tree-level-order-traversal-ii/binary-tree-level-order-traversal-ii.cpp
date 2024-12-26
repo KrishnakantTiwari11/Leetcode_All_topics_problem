@@ -16,6 +16,7 @@ public:
         if(root==NULL){
             return {};
         }
+        stack<vector<int>>s;
         queue<TreeNode*> q;
         q.push(root);
         vector<vector<int>> res;
@@ -29,9 +30,13 @@ public:
                 if(node->left)q.push(node->left);
                 if(node->right)q.push(node->right);
             }
-            res.push_back(level);
+           s.push(level);
         }
-        reverse(res.begin(),res.end());
+        while(!s.empty()){
+            vector<int>temp=s.top();
+            s.pop();
+            res.push_back(temp);
+        }
         return res;
     }
 };
