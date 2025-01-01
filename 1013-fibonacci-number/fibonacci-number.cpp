@@ -6,15 +6,15 @@ public:
             return;
         }
         sum=first+second;
-        ans=max(ans,sum);
+        ans=sum;
         i+=1;
         fibonacci(second,sum,sum,n,i);
     }
     int fib(int n) {
-        if(n==1){
-            return 1;
+        if(n==0){
+            return 0;
         }
-        if(n==2){
+        if(n==1){
             return 1;
         }
         fibonacci(0,1,0,n,2);
