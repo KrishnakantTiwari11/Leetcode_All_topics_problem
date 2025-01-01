@@ -1,19 +1,12 @@
 class Solution {
 public:
-    int fibonacci(int first,int second,int n,int i){
-        if(i>n){
-            return second;
+    int fibonacci(int n){
+        if(n<=1){
+            return n;
         }
-        return fibonacci(second,first+second,n,i+1);
+        return fibonacci(n-1)+fibonacci(n-2);
     }
     int fib(int n) {
-        if(n==0){
-            return 0;
-        }
-        if(n==1){
-            return 1;
-        }
-        return fibonacci(0,1,n,2);
-
+        return fibonacci(n);
     }
 };
