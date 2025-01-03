@@ -1,43 +1,32 @@
 class Solution {
 public:
-    void ms(vector<int>&arr,int low,int high){
-        if(low>=high){
-            return;
+    void qs(vector<int>&arr,int low,int high){
+        if(low<high){
+            int pivot_index=pivot(arr,low,high);
+            qs(arr,low,pivot_index-1);
+            qs(arr,pivot_index+1,high);
         }
-        int mid=(low+high)/2;
-        ms(arr,low,mid);
-        ms(arr,mid+1,high);
-        merge(arr,low,mid,high);
     }
-    void merge(vector<int>&arr,int low,int mid,int high){
-        vector<int>temp;
-        int left=low;
-        int right=mid+1;
-        while(left<=mid && right<=high){
-            if(arr[left]<=arr[right]){
-                temp.push_back(arr[left]);
-                left++;
+    int pivot(vector<int>&arr,int low,int high){
+            int i=low,j=high;
+            int p_value=arr[low];
+            while(i<j){
+            while(arr[i]<=p_value && i<=high-1){
+                i++;
             }
-            else{
-                temp.push_back(arr[right]);
-                right++;
+            while(arr[j]>p_value && j>=low+1){
+                j--;
+            }
+            if(i<j){
+                swap(arr[i],arr[j]);
             }
         }
-        while(left<=mid)
-        {temp.push_back(arr[left]);
-        left++;
-        }
-        while(right<=high){
-            temp.push_back(arr[right]);
-            right++;
-        }
-        for(int i=low;i<=high;i++){
-            arr[i]=temp[i-low];
-        }
-        
+        swap(arr[low],arr[j]);
+        return j;
     }
+
     vector<int> sortArray(vector<int>& nums) {
-        ms(nums,0,nums.size()-1);
+        qs(nums,0,nums.size()-1);
         return nums;
     }
 };
