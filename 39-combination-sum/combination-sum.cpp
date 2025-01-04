@@ -13,8 +13,10 @@ private:
             res.push_back(comb);
             return;
         }
-
-        if (total > target || idx >= candidates.size()) {
+        if(total>target){
+            return;
+        }
+        if(idx>=candidates.size()){
             return;
         }
 
