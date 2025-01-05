@@ -10,19 +10,47 @@
  */
 class Solution {
 public:
+    ListNode*divide(ListNode*head){
+        if(!head || !head->next){
+            return head;
+        }
+        ListNode*slow=head;
+        ListNode*fast=head->next;
+        while(fast && fast->next){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        ListNode*mid=slow->next;
+        slow->next=NULL;
+        return merge(divide(head),divide(mid));
+    }
+    ListNode*merge(ListNode*l1,ListNode*l2){
+        ListNode dummy(0);
+        ListNode*tail=&dummy;
+        while(l1 && l2){
+          if(l1->val<=l2->val){
+            tail->next=l1;
+            tail=tail->next;
+            l1=l1->next;
+          }else{
+             tail->next=l2;
+             tail=tail->next;
+             l2=l2->next;
+          }
+        }
+        while(l1){
+            tail->next=l1;
+            tail=tail->next;
+            l1=l1->next;
+        }
+        while(l2){
+            tail->next=l2;
+            tail=tail->next;
+            l2=l2->next;
+        }
+        return dummy.next;
+    }
     ListNode* sortList(ListNode* head) {
-        ListNode*ptr=head;
-        vector<int>list;
-        while(ptr!=NULL){
-            list.push_back(ptr->val);
-            ptr=ptr->next;
-        }
-        sort(list.begin(),list.end());
-        ptr=head;
-        for(int i=0;i<list.size();i++){
-            ptr->val=list[i];
-            ptr=ptr->next;
-        }
-        return head;
+       return divide(head);
     }
 };
