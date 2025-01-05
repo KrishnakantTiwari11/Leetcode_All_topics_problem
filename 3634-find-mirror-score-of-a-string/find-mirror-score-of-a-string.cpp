@@ -3,7 +3,7 @@ public:
     long long calculateScore(string s) {
         long long res = 0;
         int n = s.length();
-        unordered_map<char, priority_queue<int>> mp;
+        unordered_map<char, stack<int>> mp;
         unordered_map<char, char> mirror;
 
         char start = 'z', end = 'a';
