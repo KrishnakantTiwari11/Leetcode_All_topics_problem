@@ -1,28 +1,23 @@
 class Solution {
 public:
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<vector<int>> res;
-        vector<int> comb;
-        makeCombination(candidates, target, 0, comb, 0, res);
-        return res;        
+    void cs(vector<vector<int>>& res, int target, vector<int>& temp,
+            vector<int>& nums, int i) {
+        if (target == 0) {
+            res.push_back(temp);
+            return;
+        }
+        if (i >= nums.size() || target<0) {
+            return;
+        }
+        temp.push_back(nums[i]);
+        cs(res, target-nums[i], temp, nums, i);
+        temp.pop_back();
+        cs(res, target, temp, nums, i + 1);
     }
-
-private:
-    void makeCombination(std::vector<int>& candidates, int target, int idx, vector<int>& comb, int total, vector<vector<int>>& res) {
-        if (total == target) {
-            res.push_back(comb);
-            return;
-        }
-        if(total>target){
-            return;
-        }
-        if(idx>=candidates.size()){
-            return;
-        }
-
-        comb.push_back(candidates[idx]);
-        makeCombination(candidates, target, idx, comb, total + candidates[idx], res);
-        comb.pop_back();
-        makeCombination(candidates, target, idx + 1, comb, total, res);
-    }    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+          vector<vector<int>>res;
+          vector<int>temp;
+          cs(res,target,temp,candidates,0);
+          return res;
+    }
 };
