@@ -1,47 +1,31 @@
 class Solution {
 public:
-    bool isSafe(int row,int col,int n,vector<string>&temp){
-          int duprow=row;
-          int dupcol=col;
-          //upper diagonal
-          while(row>=0 && col>=0){
-            if(temp[row][col]=='Q')return false;
-            row--;
-            col--;
-          }
-          row=duprow;
-          col=dupcol;
-          //left col
-          while(col>=0){
-            if(temp[row][col]=='Q')return false;
-            col--;
-          }
-          row=duprow;
-          col=dupcol;
-          while(row<n && col>=0){
-            if(temp[row][col]=='Q')return false;
-            row++;
-            col--;
-          }
-          return true;
-    }
-    void solve(vector<vector<string>>&ans,vector<string>&temp,int n,int col){
+    void solve(vector<vector<string>>&ans,vector<string>&temp,int n,int col,vector<int>&left_row,vector<int>& up_diag,vector<int>& l_diag){
         if(col>=n){
             ans.push_back(temp);
             return;
         }
         for(int row=0;row<n;row++){
-             if(isSafe(row,col,n,temp)){
+             if(left_row[row]==0 && l_diag[row+col]==0 && up_diag[n-1+(col-row)]==0){
                 temp[row][col]='Q';
-                solve(ans,temp,n,col+1);
+                left_row[row]=1;
+                l_diag[row+col]=1;
+                up_diag[n-1+(col-row)]=1;
+                solve(ans,temp,n,col+1,left_row,up_diag,l_diag);
                 temp[row][col]='.';
+                left_row[row]=0;
+                l_diag[row+col]=0;
+                up_diag[n-1+(col-row)]=0;
              }
         }
     }
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>>ans;
         vector<string>temp(n,string(n,'.'));
-        solve(ans,temp,n,0);
+        vector<int>left_row(n);
+        vector<int>up_diag(2*n-1);
+        vector<int>l_diag(2*n-1);
+        solve(ans,temp,n,0,left_row,up_diag,l_diag);
         return ans;
     }
 };
