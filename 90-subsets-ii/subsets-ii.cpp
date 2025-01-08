@@ -3,9 +3,9 @@ public:
     void subset(vector<vector<int>>& res, vector<int>& temp, vector<int>& nums,
                 int i) {
         res.push_back(temp);
-        if (i >= nums.size()) {
-            return;
-        }
+        // if (i >= nums.size()) {
+        //     return;
+        // }
         for (int j = i; j < nums.size(); j++) {
             if (j > i && nums[j] == nums[j - 1]) {
                 continue;
