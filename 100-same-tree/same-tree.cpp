@@ -12,23 +12,27 @@
 class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        stack<pair<TreeNode*,TreeNode*>>st;
-        st.push({p,q});
-        while(!st.empty()){
-            TreeNode*node1=st.top().first;
-            TreeNode*node2=st.top().second;
-            st.pop();
-            if(!node1 && !node2){
-                continue;
-            }
-            if(!node1 || !node2){
-                return false;
-            }
-            if(node1->val!=node2->val){
-                return false;
-            }
-            st.push({node1->right,node2->right});
-            st.push({node1->left,node2->left});
+        if(!p && q)return false;
+        if(p && !q)return false;
+        if(!p && !q)return true;
+        queue<TreeNode*>q1;
+        queue<TreeNode*>q2;
+        q1.push(p);
+        q2.push(q);
+        while(!q1.empty() && !q2.empty()){
+            TreeNode*temp1=q1.front();
+            TreeNode*temp2=q2.front();
+            q1.pop();
+            q2.pop();
+            if(temp1->val!=temp2->val)return false;
+            if(!temp1->right && temp2->right)return false;
+            if(!temp1->left && temp2->left)return false;
+            if(temp1->right && !temp2->right)return false;
+            if(temp1->left && !temp2->left)return false;
+            if(temp1->left)q1.push(temp1->left);
+            if(temp1->right)q1.push(temp1->right);
+            if(temp2->left)q2.push(temp2->left);
+            if(temp2->right)q2.push(temp2->right);
         }
         return true;
     }
