@@ -12,18 +12,37 @@
  */
 class Solution {
 public:
-    bool helper(TreeNode* tree1, TreeNode* tree2) {
-        if(!tree1 && !tree2)return true;
-        if(!tree1 || !tree2)return false;
-        if (tree1->val != tree2->val)
-            return false;
-        if(helper(tree1->left,tree2->right)==false)return false;
-        if(helper(tree1->right,tree2->left)==false)return false;
-        return true;
-    }
     bool isSymmetric(TreeNode* root) {
-        if (root == NULL)
+        if (!root)
             return true;
-        return helper(root->left,root->right);
+        if (!root->left && !root->right)
+            return true;
+        if (!root->left || !root->right)
+            return false;
+        queue<pair<TreeNode*, TreeNode*>> q;
+        q.push({root->left, root->right});
+        while (!q.empty()) {
+            int n = q.size();
+            for (int i = 0; i < n; i++) {
+                pair<TreeNode*, TreeNode*> node = q.front();
+                q.pop();
+                if (node.first->val != node.second->val)
+                    return false;
+                if (node.first->left && !node.second->right)
+                    return false;
+                if (!node.first->left && node.second->right)
+                    return false;
+                if (node.first->right && !node.second->left)
+                    return false;
+                if (!node.first->right && node.second->left)
+                    return false;
+
+                if (node.first->left && node.second->right)
+                    q.push({node.first->left, node.second->right});
+                if (node.first->right && node.second->left)
+                    q.push({node.first->right, node.second->left});
+            }
+        }
+        return true;
     }
 };
