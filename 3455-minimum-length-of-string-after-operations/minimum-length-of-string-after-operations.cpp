@@ -1,28 +1,20 @@
 class Solution {
 public:
     int minimumLength(string s) {
-        unordered_map<char,int>left;
-        unordered_map<char,int>right;
-        int n=s.length();
-        for(int i=0;i<n;i++){
-            right[s[i]]++;
+        int length=0;
+        vector<int>freq(26,0);
+        for(auto ch:s){
+            freq[ch-'a']++;
         }
-        for(int i=0;i<n;i++){
-            if(right.find(s[i])==right.end())continue;
-            right[s[i]]--;
-            if(right[s[i]]==0)right.erase(s[i]);
-            if(left.find(s[i])!=left.end() && right.find(s[i])!=right.end()){
-                left[s[i]]--;
-                right[s[i]]--;
-                if(left[s[i]]==0)left.erase(s[i]);
-                if(right[s[i]]==0)right.erase(s[i]);
+        for(auto num:freq){
+            if(num==0)continue;
+            if(num%2==0){
+                length+=2;
             }
-            left[s[i]]++;
+            else{
+                length+=1;
+            }
         }
-        int ans=0;
-        for(auto ch:left){
-            ans+=ch.second;
-        }
-        return ans;
+        return length;
     }
 };
