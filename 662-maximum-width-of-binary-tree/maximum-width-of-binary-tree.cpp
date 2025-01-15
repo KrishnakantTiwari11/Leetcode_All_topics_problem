@@ -27,9 +27,9 @@ public:
                 pair<TreeNode*, int> temp= q.front();
                 q.pop();
                 if(temp.first->left)
-                    q.push({temp.first->left, (long)2 *temp.second +1});
+                    q.push({temp.first->left, (long)2 *temp.second +1-start});
                 if(temp.first->right)
-                    q.push({temp.first->right, (long)2 *temp.second +2});
+                    q.push({temp.first->right, (long)2 *temp.second +2-start});
             }
         }
         return width;
