@@ -1,37 +1,24 @@
 class Solution {
 public:
-    bool find_row(int row,vector<vector<int>>& grid,int n,int col){
-         for(int i=0;i<n;i++){
-            if(i==col)continue;
-            if(grid[row][i]==1)return true;
-         }
-         return false;
-    }
-    bool find_col(int col,vector<vector<int>>& grid,int n,int row){
-         for(int i=0;i<n;i++){
-            if(i==row)continue;
-            if(grid[i][col]==1)return true;
-         }
-         return false;
-    }
     int countServers(vector<vector<int>>& grid) {
-        int row_size=grid.size();
-        int col_size=grid[0].size();
-        int count=0;
-        for(int row=0;row<row_size;row++){
-            for(int col=0;col<col_size;col++){
-                if(grid[row][col]==1){
-                    if(find_row(row,grid,col_size,col)){
-                        count++;
-                    }
-                    else{
-                        if(find_col(col,grid,row_size,row)){
-                            count++;
-                        }
-                    }
+        int n=grid.size();
+        int m=grid[0].size();
+        vector<int> row(n);
+        vector<int> col(m);
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                row[i]+=grid[i][j];
+                col[j]+=grid[i][j];
+            }
+        }
+        int ans=0;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1 && (row[i]>1 || col[j]>1)){
+                    ans++;
                 }
             }
         }
-        return count;
+        return ans;
     }
 };
