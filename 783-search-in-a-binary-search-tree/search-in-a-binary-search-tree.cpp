@@ -11,12 +11,23 @@
  */
 class Solution {
 public:
+    void helper(TreeNode*root,int val,TreeNode* & ans){
+        if(!root)return;
+        if(root->val==val){
+            ans=root;
+            return;
+        }
+        if(val>root->val){
+           helper(root->right,val,ans);
+        }
+        else{
+           helper(root->left,val,ans);
+        }
+        return;
+    }
     TreeNode* searchBST(TreeNode* root, int val) {
-        if(!root)return NULL;
-        if(root->val==val)return root;
-        TreeNode*left=searchBST(root->left,val);
-        TreeNode*right=searchBST(root->right,val);
-        if(right)return right;
-        return left;
+        TreeNode*ans=NULL;
+        helper(root,val,ans);
+        return ans;
     }
 };
