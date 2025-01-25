@@ -11,23 +11,15 @@
  */
 class Solution {
 public:
-    void helper(TreeNode*root,int val,TreeNode* & ans){
-        if(!root)return;
-        if(root->val==val){
-            ans=root;
-            return;
-        }
-        if(val>root->val){
-           helper(root->right,val,ans);
-        }
-        else{
-           helper(root->left,val,ans);
-        }
-        return;
-    }
     TreeNode* searchBST(TreeNode* root, int val) {
-        TreeNode*ans=NULL;
-        helper(root,val,ans);
-        return ans;
+        while(root && root->val!=val){
+            if(val>root->val){
+                root=root->right;
+            }
+            else{
+                root=root->left;
+            }
+        }
+        return root;
     }
 };
