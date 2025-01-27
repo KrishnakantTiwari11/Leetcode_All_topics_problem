@@ -11,21 +11,20 @@
  */
 class Solution {
 public:
-    bool inorder(TreeNode*node,int & count,int & ans,int k){
+    bool inorder(TreeNode*node,int & ans,int & k){
         if(!node)return true;
-        if(!inorder(node->left,count,ans,k))return false;
-        count++;
-        if(count==k){
+        if(!inorder(node->left,ans,k))return false;
+        k--;
+        if(k==0){
             ans=node->val;
             return false;
         }
-        if(!inorder(node->right,count,ans,k))return false;
+        if(!inorder(node->right,ans,k))return false;
         return true;
     }
     int kthSmallest(TreeNode* root, int k) {
         int res=0;
-        int count=0;
-        inorder(root,count,res,k);
+        inorder(root,res,k);
         return res;
     }
 };
