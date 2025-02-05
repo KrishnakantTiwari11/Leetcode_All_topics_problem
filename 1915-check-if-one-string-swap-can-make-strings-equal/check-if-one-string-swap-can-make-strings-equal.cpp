@@ -5,18 +5,15 @@ public:
         vector<int>arr1(26,0);
         vector<int>arr2(26,0);
         int n=s1.length();
+        int count=0;
         for(int i=0;i<n;i++){
             arr1[s1[i]-'a']++;
             arr2[s2[i]-'a']++;
+            if(s1[i]!=s2[i])count++;
+
         }
-        int count=0;
-        if(arr1==arr2){
-            for(int i=0;i<n;i++){
-                if(s1[i]!=s2[i])count++;
-            }
-        }
-        else{
-            return false;
+        if(arr1!=arr2){
+          return false;
         }
         if(count<=2)return true;
         return false;
