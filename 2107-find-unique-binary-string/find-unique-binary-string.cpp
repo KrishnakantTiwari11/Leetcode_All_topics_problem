@@ -8,6 +8,7 @@ public:
         for(int i=0;i<n;i++){
             ans[i]='1';
             if(mp.find(ans)==mp.end())return ans;
+            ans[i]='0';
         }
         return "";
     }
