@@ -1,47 +1,46 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-        vector<vector<int>> visited = grid;
-        queue<pair<int, int>> q;
-        int countFreshOrange = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (visited[i][j] == 2) {
-                    q.push({i, j});
-                }
-                if (visited[i][j] == 1) {
-                    countFreshOrange++;
-                }
+        int m=grid.size();
+        int n=grid[0].size();
+        vector<vector<int>>visited(m,vector<int>(n,0));
+        queue<pair<pair<int,int>,int>>q;
+        int fresh=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==2)q.push({{i,j},0});
+                if(grid[i][j]==1)fresh++;
             }
         }
-        if (countFreshOrange == 0)
-            return 0;
-        if (q.empty())
-            return -1;
-        int minutes = -1;
-        vector<pair<int, int>> dirs = {{1, 0},{-1, 0},{0, -1},{0, 1}};
-        while (!q.empty()) {
-            int size = q.size();
-            while (size--) {
-                auto [x, y] = q.front();
-                q.pop();
-                for (auto [dx, dy] : dirs) {
-                    int i = x + dx;
-                    int j = y + dy;
-                    if (i >= 0 && i < m && j >= 0 && j < n && visited[i][j] == 1) {
-                        visited[i][j] = 2;
-                        countFreshOrange--;
-                        q.push({i, j});
-                    }
-                }
+        int res=0;
+        while(!q.empty()){
+            int r=q.front().first.first;
+            int c=q.front().first.second;
+            int time=q.front().second;
+            q.pop();
+            res=max(res,time);
+            if(r-1>=0 && grid[r-1][c]==1 && !visited[r-1][c]){
+                visited[r-1][c]=1;
+                q.push({{r-1,c},time+1});
+                fresh--;
             }
-            minutes++;
+            if(r+1<m && grid[r+1][c]==1 && !visited[r+1][c]){
+                visited[r+1][c]=1;
+                q.push({{r+1,c},time+1});
+                fresh--;
+            }
+            if(c-1>=0 && grid[r][c-1]==1 && !visited[r][c-1]){
+                visited[r][c-1]=1;
+                q.push({{r,c-1},time+1});
+                fresh--;
+            }
+            if(c+1<n && grid[r][c+1]==1 && !visited[r][c+1]){
+                visited[r][c+1]=1;
+                q.push({{r,c+1},time+1});
+                fresh--;
+            }
         }
-        
-        if (countFreshOrange == 0)
-            return minutes;
+        if(fresh==0)return res;
         return -1;
     }
 };
