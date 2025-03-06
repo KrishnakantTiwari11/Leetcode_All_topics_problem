@@ -10,15 +10,13 @@ public:
                 mp[grid[i][j]]++;
             }
         }
-        int j=1;
-        for(int i=0;i<mp.size();i++){
+        for(int i=1;i<=m*n;i++){
             if(mp[i]==2){
                 res[0]=i;
             }
-            if(mp.find(j)==mp.end() && res[1]==0){
-                res[1]=j;
+            if(mp[i]==0){
+                res[1]=i;
             }
-            j++;
         }
         return res;
     }
