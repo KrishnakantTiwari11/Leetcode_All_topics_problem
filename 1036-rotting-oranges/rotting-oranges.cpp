@@ -1,46 +1,59 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int m=grid.size();
-        int n=grid[0].size();
-        vector<vector<int>>visited(m,vector<int>(n,0));
-        queue<pair<pair<int,int>,int>>q;
-        int fresh=0;
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                if(grid[i][j]==2)q.push({{i,j},0});
-                if(grid[i][j]==1)fresh++;
+        int m = grid.size();
+        int n = grid[0].size();
+        vector<vector<int>> visited(m, vector<int>(n, 0));
+        queue<pair<pair<int, int>, int>> q;
+        int res = 0;
+        int oranges = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 2) {
+                    q.push({{i, j}, 0});
+                }
+                if (grid[i][j] == 1)
+                    oranges++;
             }
         }
-        int res=0;
-        while(!q.empty()){
-            int r=q.front().first.first;
-            int c=q.front().first.second;
-            int time=q.front().second;
+        while (!q.empty()) {
+            int row = q.front().first.first;
+            int col = q.front().first.second;
+            int min = q.front().second;
             q.pop();
-            res=max(res,time);
-            if(r-1>=0 && grid[r-1][c]==1 && !visited[r-1][c]){
-                visited[r-1][c]=1;
-                q.push({{r-1,c},time+1});
-                fresh--;
+            res = max(res, min);
+            // Right
+            if (col + 1 < n && grid[row][col + 1] == 1 &&
+                !visited[row][col + 1]) {
+                q.push({{row, col + 1}, min + 1});
+                visited[row][col + 1] = 1;
+                oranges--;
             }
-            if(r+1<m && grid[r+1][c]==1 && !visited[r+1][c]){
-                visited[r+1][c]=1;
-                q.push({{r+1,c},time+1});
-                fresh--;
+
+            // Left
+            if (col - 1 >= 0 && grid[row][col - 1] == 1 &&
+                !visited[row][col - 1]) {
+                q.push({{row, col - 1}, min + 1});
+                visited[row][col - 1] = 1;
+                oranges--;
             }
-            if(c-1>=0 && grid[r][c-1]==1 && !visited[r][c-1]){
-                visited[r][c-1]=1;
-                q.push({{r,c-1},time+1});
-                fresh--;
+
+            // Down
+            if (row + 1 < m && grid[row + 1][col] == 1 &&
+                !visited[row + 1][col]) {
+                q.push({{row + 1, col}, min + 1});
+                visited[row + 1][col] = 1;
+                oranges--;
             }
-            if(c+1<n && grid[r][c+1]==1 && !visited[r][c+1]){
-                visited[r][c+1]=1;
-                q.push({{r,c+1},time+1});
-                fresh--;
+
+            // Up
+            if (row - 1 >= 0 && grid[row - 1][col] == 1 &&
+                !visited[row - 1][col]) {
+                q.push({{row - 1, col}, min + 1});
+                visited[row - 1][col] = 1;
+                oranges--;
             }
         }
-        if(fresh==0)return res;
-        return -1;
+        return oranges == 0 ? res : -1;
     }
 };
