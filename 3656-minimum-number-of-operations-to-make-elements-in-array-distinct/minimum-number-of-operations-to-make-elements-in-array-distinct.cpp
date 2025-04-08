@@ -1,36 +1,23 @@
 class Solution {
 public:
     int minimumOperations(vector<int>& nums) {
-        int i = 0;
-        int count = 0;
-        map<int, int> temp;
-        
-        for (int num : nums) {
-            temp[num]++;
-        }
-
-        while (true) {
-            if (temp.size() == nums.size() - i) {
-                return count;
+        int n=nums.size();
+        int start=0,count=0;
+        while(true){
+            unordered_set<int>mp;
+            for(int i=start;i<n;i++){
+                mp.insert(nums[i]);
             }
-            if(i + 3 >= nums.size() - 1) {
+            if(mp.size()!=n-start){
+                start+=3;
                 count++;
-                return count;
+                if(start>=n)break;
+            }
+            else{
+                break;
             }
             
-            temp[nums[i]]--;
-            if (temp[nums[i]] == 0) temp.erase(nums[i]);
-            
-            temp[nums[i+1]]--;
-            if (temp[nums[i+1]] == 0) temp.erase(nums[i+1]);
-            
-            temp[nums[i+2]]--;
-            if (temp[nums[i+2]] == 0) temp.erase(nums[i+2]);
-
-            i += 3;
-            count++;
         }
-
         return count;
     }
 };
