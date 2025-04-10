@@ -2,46 +2,45 @@ class Solution {
 public:
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc,
                                   int color) {
-        int n = image.size(), m = image[0].size();
+        int m = image.size();
+        int n = image[0].size();
+        vector<vector<int>> visited(m, vector<int>(n, 0));
         queue<pair<int, int>> q;
-        vector<vector<int>> visited(n, vector<int>(m, 0));
-        int originalColor =image[sr][sc]; 
         q.push({sr, sc});
         visited[sr][sc] = 1;
-
         while (!q.empty()) {
-            int temp_sr = q.front().first;
-            int temp_sc = q.front().second;
+            int row = q.front().first;
+            int col = q.front().second;
             q.pop();
-
-            if (temp_sc - 1 >= 0 &&
-                image[temp_sr][temp_sc - 1] == originalColor &&
-                !visited[temp_sr][temp_sc - 1]) {
-                q.push({temp_sr, temp_sc - 1});
-                visited[temp_sr][temp_sc - 1] = 1;
-            }
-            if (temp_sc + 1 < m &&
-                image[temp_sr][temp_sc + 1] == originalColor &&
-                !visited[temp_sr][temp_sc + 1]) {
-                q.push({temp_sr, temp_sc + 1});
-                visited[temp_sr][temp_sc + 1] = 1;
-            }
-            if (temp_sr - 1 >= 0 &&
-                image[temp_sr - 1][temp_sc] == originalColor &&
-                !visited[temp_sr - 1][temp_sc]) {
-                q.push({temp_sr - 1, temp_sc});
-                visited[temp_sr - 1][temp_sc] = 1;
-            }
-            if (temp_sr + 1 < n &&
-                image[temp_sr + 1][temp_sc] == originalColor &&
-                !visited[temp_sr + 1][temp_sc]) {
-                q.push({temp_sr + 1, temp_sc});
-                visited[temp_sr + 1][temp_sc] = 1;
+            // up
+            if (row - 1 >= 0 && !visited[row - 1][col] &&
+                image[row - 1][col] == image[row][col]) {
+                q.push({row - 1, col});
+                visited[row - 1][col]=1;
             }
 
-            image[temp_sr][temp_sc] = color; // Update the color
+            // Right
+            if (col + 1 < n && !visited[row][col + 1] &&
+                image[row][col + 1] == image[row][col]) {
+                q.push({row, col + 1});
+                visited[row][col + 1]=1;
+            }
+
+            // Left
+            if (col - 1 >= 0 && !visited[row][col - 1] &&
+                image[row][col - 1] == image[row][col]) {
+                q.push({row, col - 1});
+                visited[row][col - 1]=1;
+            }
+
+            // Down
+            if (row + 1 < m && !visited[row + 1][col] &&
+                image[row + 1][col] == image[row][col]) {
+                q.push({row + 1, col});
+                visited[row + 1][col]=1;
+            }
+            image[row][col] = color;
         }
-
         return image;
     }
 };
