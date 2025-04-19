@@ -1,23 +1,21 @@
-#include <vector>
-#include <algorithm>
-
 class Solution {
 public:
-    long long countFairPairs(std::vector<int>& nums, int lower, int upper) {
-        std::sort(nums.begin(), nums.end());
-        long long count = 0;
-        int n = nums.size();
-        
-        for (int i = 0; i < n - 1; ++i) {
-            int min_val = lower - nums[i];
-            int max_val = upper - nums[i];
-        
-            auto start = std::lower_bound(nums.begin() + i + 1, nums.end(), min_val);
-            auto end = std::upper_bound(nums.begin() + i + 1, nums.end(), max_val);
-            
-            count += (end - start);
+    long long countAtLeast(vector<int>& nums, long long comp) {
+        long long ans = 0;
+        int i = 0, j = nums.size() - 1;
+        while (i < j) {
+            if ((long long)nums[i] + nums[j] >= comp) {
+                ans += j - i;
+                j--;
+            } else {
+                i++;
+            }
         }
-        
-        return count;
+        return ans;
+    }
+
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        sort(nums.begin(), nums.end());
+        return countAtLeast(nums, lower) - countAtLeast(nums, (long long)upper + 1);
     }
 };
