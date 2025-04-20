@@ -3,11 +3,8 @@ public:
     int numRabbits(vector<int>& answers) {
         unordered_map<int, int> mp;
         int res = 0;
-        int num = 0;
         for (auto ch : answers) {
             mp[ch]++;
-            if (ch == 0)
-                num++;
         }
         for (auto& ch : mp) {
             int a = ch.first;
