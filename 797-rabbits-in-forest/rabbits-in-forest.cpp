@@ -9,7 +9,7 @@ public:
             if (ch == 0)
                 num++;
         }
-        for (auto &ch : mp) {
+        for (auto& ch : mp) {
             int a = ch.first;
             int b = ch.second;
             while (ch.second > 0) {
@@ -19,13 +19,11 @@ public:
                 } else if (ch.first >= ch.second) {
                     res += (ch.first + 1);
                     break;
-                } else if (ch.first + 1 == ch.second) {
-                    res += ch.second;
-                    break;
-                } else {
+                }
+                else {
                     int c = ch.first + 1;
-                    int div = ch.second/c;
-                    int rem =ch.second%c;
+                    int div = ch.second / c;
+                    int rem = ch.second % c;
                     res += div * c;
                     ch.second = rem;
                 }
