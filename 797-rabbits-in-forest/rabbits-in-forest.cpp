@@ -12,20 +12,19 @@ public:
         for (auto& ch : mp) {
             int a = ch.first;
             int b = ch.second;
-            while (ch.second > 0) {
-                if (ch.first == 0) {
-                    res += ch.second;
+            while (b > 0) {
+                if (a == 0) {
+                    res += b;
                     break;
-                } else if (ch.first >= ch.second) {
-                    res += (ch.first + 1);
+                } else if (a >= b) {
+                    res += (a + 1);
                     break;
-                }
-                else {
-                    int c = ch.first + 1;
-                    int div = ch.second / c;
-                    int rem = ch.second % c;
+                } else {
+                    int c = a + 1;
+                    int div = b / c;
+                    int rem = b % c;
                     res += div * c;
-                    ch.second = rem;
+                    b = rem;
                 }
             }
         }
