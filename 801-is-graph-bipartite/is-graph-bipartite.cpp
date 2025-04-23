@@ -1,30 +1,28 @@
 class Solution {
 public:
-    bool helper(vector<vector<int>>& graph, vector<int>& colored, int curr, int parent) {
-        if (parent == -1) {
-            colored[curr] = 0;
-        } else if (colored[curr] == -1) {
-            colored[curr] = 1 - colored[parent];
-        } else {
-            if (colored[curr] == colored[parent]) return false;
-            return true;
-        }
-
-        for (int ch : graph[curr]) {
-            if (!helper(graph, colored, ch, curr))
-                return false;
-        }
+    bool helper(vector<vector<int>>& graph,vector<int>&visited,int curr,int par){
+            if(par!=-1){
+                visited[curr]=-visited[par];
+            }
+            else{
+                visited[curr]=1;
+            }
+            for(auto ch:graph[curr]){
+                if(visited[ch]==0){
+                    if(!helper(graph,visited,ch,curr))return false;
+                }
+                else if(visited[ch]==visited[curr]){
+                    return false;
+                }
+            }
         return true;
     }
-
     bool isBipartite(vector<vector<int>>& graph) {
-        int n = graph.size();
-        vector<int> colored(n, -1);
-
-        for (int i = 0; i < n; i++) {
-            if (colored[i] == -1) {
-                if (!helper(graph, colored, i, -1))
-                    return false;
+        int n=graph.size();
+        vector<int>visited(n,0);
+        for(int i=0;i<n;i++){
+            if(visited[i]==0){
+               if(!helper(graph,visited,i,-1))return false;
             }
         }
         return true;
