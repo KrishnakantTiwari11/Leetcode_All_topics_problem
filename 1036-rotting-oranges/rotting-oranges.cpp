@@ -3,57 +3,55 @@ public:
     int orangesRotting(vector<vector<int>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
+        int fresh = 0;
+        int res = 0;
         vector<vector<int>> visited(m, vector<int>(n, 0));
         queue<pair<pair<int, int>, int>> q;
-        int res = 0;
-        int oranges = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 2) {
-                    q.push({{i, j}, 0});
-                }
                 if (grid[i][j] == 1)
-                    oranges++;
+                    fresh++;
+                else if (grid[i][j] == 2) {
+                    q.push({{i, j}, 0});
+                    visited[i][j] = 1;
+                }
             }
         }
         while (!q.empty()) {
-            int row = q.front().first.first;
-            int col = q.front().first.second;
-            int min = q.front().second;
+            int i = q.front().first.first;
+            int j = q.front().first.second;
+            int time = q.front().second;
+             res = max(res, time);
             q.pop();
-            res = max(res, min);
-            // Right
-            if (col + 1 < n && grid[row][col + 1] == 1 &&
-                !visited[row][col + 1]) {
-                q.push({{row, col + 1}, min + 1});
-                visited[row][col + 1] = 1;
-                oranges--;
+            time++;
+            // up
+            if (i - 1 >= 0 && grid[i - 1][j] == 1 && !visited[i - 1][j]) {
+                q.push({{i - 1, j}, time});
+                visited[i - 1][j] = 1;
+                fresh--;
+            }
+            // down
+            if (i + 1 < m && grid[i + 1][j] == 1 && !visited[i + 1][j]) {
+                q.push({{i + 1, j}, time});
+                visited[i + 1][j] = 1;
+                fresh--;
             }
 
-            // Left
-            if (col - 1 >= 0 && grid[row][col - 1] == 1 &&
-                !visited[row][col - 1]) {
-                q.push({{row, col - 1}, min + 1});
-                visited[row][col - 1] = 1;
-                oranges--;
+            // left
+            if (j - 1 >= 0 && grid[i][j - 1] == 1 && !visited[i][j - 1]) {
+                q.push({{i, j - 1}, time});
+                visited[i][j - 1] = 1;
+                fresh--;
             }
 
-            // Down
-            if (row + 1 < m && grid[row + 1][col] == 1 &&
-                !visited[row + 1][col]) {
-                q.push({{row + 1, col}, min + 1});
-                visited[row + 1][col] = 1;
-                oranges--;
-            }
-
-            // Up
-            if (row - 1 >= 0 && grid[row - 1][col] == 1 &&
-                !visited[row - 1][col]) {
-                q.push({{row - 1, col}, min + 1});
-                visited[row - 1][col] = 1;
-                oranges--;
+            // right
+            if (j + 1 < n && grid[i][j + 1] == 1 && !visited[i][j + 1]) {
+                q.push({{i, j + 1}, time});
+                visited[i][j + 1] = 1;
+                fresh--;
             }
         }
-        return oranges == 0 ? res : -1;
+        if(fresh==0)return res;
+        return -1;
     }
 };
