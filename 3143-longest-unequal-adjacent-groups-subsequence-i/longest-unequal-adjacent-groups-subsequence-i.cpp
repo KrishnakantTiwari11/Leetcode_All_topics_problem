@@ -5,13 +5,9 @@ public:
         int n=groups.size();
         int prev_val=-1;
         for(int i=0;i<n;i++){
-            if(i==0){
+            if(i==0 || groups[i]!=prev_val){
                 prev_val=groups[i];
                 res.push_back(words[i]);
-            }
-            else if(groups[i]!=prev_val){
-                res.push_back(words[i]);
-                prev_val=groups[i];
             }
         }
         return res;
