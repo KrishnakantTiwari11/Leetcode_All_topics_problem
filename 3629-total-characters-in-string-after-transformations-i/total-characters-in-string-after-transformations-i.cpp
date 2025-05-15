@@ -9,7 +9,7 @@ public:
         for (int i = 0; i < t; i++) {
             vector<long long> temp(26, 0);
             for (int j = 0; j < 25; j++) {
-                temp[j + 1] = (temp[j + 1] + freq[j]) % MOD;
+                temp[j + 1] = (freq[j]) % MOD;
             }
             temp[0] = (freq[25]) % MOD;
             temp[1] = (temp[1] + freq[25]) % MOD;
