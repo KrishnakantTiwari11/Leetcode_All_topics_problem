@@ -4,15 +4,13 @@ public:
         int n=graph.size();
         vector<vector<int>>mat(n);
         vector<int>inDegree(n,0),res;
+        queue<int>q;
         for(int i=0;i<n;i++){
-            for(int j=0;j<graph[i].size();j++){
-                int u=i;
-                int v=graph[i][j];
-                mat[v].push_back(u);
-                inDegree[u]++;
+            for(auto num:graph[i]){
+                mat[num].push_back(i);
+                inDegree[i]++;
             }
         }
-        queue<int>q;
         for(int i=0;i<n;i++){
             if(inDegree[i]==0)q.push(i);
         }
@@ -20,9 +18,9 @@ public:
             int curr=q.front();
             q.pop();
             res.push_back(curr);
-            for(auto ch:mat[curr]){
-                inDegree[ch]--;
-                if(inDegree[ch]==0)q.push(ch);
+            for(auto neigh:mat[curr]){
+                inDegree[neigh]--;
+                if(inDegree[neigh]==0)q.push(neigh);
             }
         }
         sort(res.begin(),res.end());
