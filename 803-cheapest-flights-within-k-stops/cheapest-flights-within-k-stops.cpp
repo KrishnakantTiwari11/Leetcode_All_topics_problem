@@ -1,34 +1,48 @@
 class Solution {
 public:
+
+   
+
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        vector<vector<pair<int, int>>> graph(n);
-        for (auto& flight : flights) {
-            graph[flight[0]].push_back({flight[1], flight[2]});
+
+        vector<vector<pair<int,int>>>adj(n);
+        for(int i=0; i<flights.size(); i++){
+            adj[flights[i][0]].push_back({flights[i][1],flights[i][2]}); // adjNode,edgeWeight
         }
 
-        // dist[node][stops] = min cost to reach node with stops
-        vector<vector<int>> dist(n, vector<int>(k + 2, INT_MAX));
-        dist[src][0] = 0;
+        vector<int>dist(n,INT_MAX);
+        dist[src] =0;
+        // priority_queue< pair<int,pair<int,int>>, vector<pair<int,pair<int,int>>>, greater<pair<int,pair<int,int>>> > pq;
+        queue< pair<int,pair<int,int>> > pq;
+        pq.push({0,{0,src}});
 
-        // {cost, node, stops}
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> pq;
-        pq.push({0, src, 0});
-
-        while (!pq.empty()) {
-            auto [cost, node, stops] = pq.top();
+        while(pq.size()>0){
+            auto p = pq.front();
             pq.pop();
+            int d = p.first;
+            int stops = p.second.first;
+            int node = p.second.second;
 
-            if (node == dst) return cost;
-            if (stops > k) continue;
+            if(stops>k) continue;
 
-            for (auto& [next, price] : graph[node]) {
-                if (cost + price < dist[next][stops + 1]) {
-                    dist[next][stops + 1] = cost + price;
-                    pq.push({dist[next][stops + 1], next, stops + 1});
+            for(auto it: adj[node]){
+                int adjNode = it.first;
+                int edgeWt = it.second;
+                int newDist = d + edgeWt;
+
+                if(newDist < dist[adjNode]){
+                //    if(adjNode==dst && stops>k) continue;
+                   dist[adjNode] = newDist;
+                   pq.push({newDist,{stops+1,adjNode}});
                 }
             }
         }
+     
+        
+        if(dist[dst]==INT_MAX) return -1;
+       
+        return dist[dst];
 
-        return -1;
+
     }
 };
