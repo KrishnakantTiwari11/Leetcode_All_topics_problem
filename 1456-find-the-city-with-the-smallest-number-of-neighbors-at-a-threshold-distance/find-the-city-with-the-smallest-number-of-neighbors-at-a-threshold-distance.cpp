@@ -1,50 +1,39 @@
 class Solution {
 public:
-    vector<int> djkstra(vector<vector<pair<int, int>>>& mat, int src) {
-        int n = mat.size();
-        vector<int> distance(n, INT_MAX);
-        priority_queue<pair<int, int>, vector<pair<int, int>>,
-                       greater<pair<int, int>>>
-            q;
-        q.push({0, src});
-        distance[src] = 0;
-        while (!q.empty()) {
-            int curr = q.top().second;
-            int dist = q.top().first;
-            q.pop();
-            for (auto neigh : mat[curr]) {
-                int wt = neigh.second;
-                int next = neigh.first;
-                if (distance[curr] + wt < distance[next]) {
-                    distance[next] = distance[curr] + wt;
-                    q.push({distance[next], next});
-                }
-            }
-        }
-        return distance;
-    }
     int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
-        vector<vector<int>> path(n);
-        vector<vector<pair<int, int>>> mat(n);
-        int r_city=0,r_city_num=INT_MAX;
-        for (auto edge : edges) {
+        vector<vector<int>> dist(n, vector<int>(n, 1e9));
+
+        for (int i = 0; i < n; i++) dist[i][i] = 0;
+
+        for (auto& edge : edges) {
             int u = edge[0], v = edge[1], w = edge[2];
-            mat[u].push_back({v, w});
-            mat[v].push_back({u, w});
+            dist[u][v] = w;
+            dist[v][u] = w;
         }
-        for (int i = 0; i < n; i++) {
-            path[i] = djkstra(mat, i);
-            int temp = 0;
-            for (int j = 0; j < n; j++) {
-                if (i!=j && path[i][j] <= distanceThreshold) {
-                    temp++;
+
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
                 }
             }
-            if (temp <= r_city_num) {
-                r_city = i;
-                r_city_num = temp;
+        }
+
+        int city = 0, minCount = n;
+        for (int i = 0; i < n; i++) {
+            int cnt = 0;
+            for (int j = 0; j < n; j++) {
+                if (i != j && dist[i][j] <= distanceThreshold) {
+                    cnt++;
+                }
+            }
+            if (cnt <= minCount) {
+                minCount = cnt;
+                city = i;
             }
         }
-        return r_city;
+        return city;
     }
 };
