@@ -2,18 +2,15 @@ class Solution {
 public:
     int longestSubarray(vector<int>& nums) {
         int n=nums.size();
-        int maxe=*max_element(nums.begin(),nums.end());
-        int subarray=0;
         int ans=1;
-        for(int i=0;i<n;i++)
-        {
-            if(nums[i]==maxe)
-            {
+        int subarray=0;
+        int maxNum=*max_element(nums.begin(),nums.end());
+        for(int i=0;i<n;i++){
+            if(nums[i]==maxNum){
                 subarray++;
-                ans=max(ans,subarray);
+                ans=max(subarray,ans);
             }
-            else
-            {
+            else{
                 subarray=0;
             }
         }
