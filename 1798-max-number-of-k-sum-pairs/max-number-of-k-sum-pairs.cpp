@@ -7,15 +7,12 @@ public:
         }
         int res = 0;
         for (auto ch : nums) {
-            int diff =k - ch;
-            if (mp.find(diff) != mp.end() && mp[diff] > 0 && mp[ch]>0) {
-                if (diff == ch && mp[diff] <= 1) {
-                    continue;
-                } else {
-                    res++;
-                    mp[diff]--;
-                    mp[ch]--;
-                }
+            int diff = k - ch;
+            if (mp.find(diff) != mp.end() && mp[diff] > 0 && mp[ch] > 0 &&
+                !(diff == ch && mp[diff] <= 1)) {
+                res++;
+                mp[diff]--;
+                mp[ch]--;
             }
         }
         return res;
