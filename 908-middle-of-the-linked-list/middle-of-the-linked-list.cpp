@@ -12,12 +12,12 @@ class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
         ListNode*temp=head;
-        int length;
+        int length=0;
         while(temp){
             length++;
             temp=temp->next;
         }
-        cout<<length;
+        // cout<<length;
         temp=head;
         int midNode = ceil(length/2)+1;
         int count=0;
