@@ -17,9 +17,8 @@ public:
             length++;
             temp=temp->next;
         }
-        // cout<<length;
         temp=head;
-        int midNode = ceil(length/2)+1;
+        int midNode = length/2+1;
         int count=0;
         while(temp){
             count++;
