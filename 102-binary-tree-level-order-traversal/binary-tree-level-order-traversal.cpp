@@ -16,22 +16,21 @@ public:
         vector<vector<int>> res;
         if (!root)
             return res;
-        queue<pair<TreeNode*, int>> q;
-        q.push({root, 0});
+        queue<TreeNode*>q;
+        q.push(root);
         while (!q.empty()) {
-            TreeNode* curr = q.front().first;
-            int currInd = q.front().second;
-            q.pop();
-            if(res.size()==currInd){
-                res.push_back({});
+            int n = q.size();
+            vector<int> level;
+            for (int i = 0; i < n; i++) {
+                TreeNode* curr = q.front();
+                level.push_back(curr->val);
+                q.pop();
+                if (curr->left)
+                    q.push(curr->left);
+                if (curr->right)
+                    q.push(curr->right);
             }
-            res[currInd].push_back(curr->val);
-            if (curr->left) {
-                q.push({curr->left, currInd + 1});
-            }
-            if (curr->right) {
-                q.push({curr->right, currInd + 1});
-            }
+            res.push_back(level);
         }
         return res;
     }
