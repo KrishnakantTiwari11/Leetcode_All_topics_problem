@@ -1,50 +1,47 @@
 class Solution {
 public:
     int numEnclaves(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-        vector<vector<int>> visited(m, vector<int>(n, 0));
-        int one_count = 0;
-        queue<pair<int, int>> q;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 1) {
-                    one_count++;
+        queue<pair<int,int>>q;
+        int rows = grid.size(),cols=grid[0].size();
+        vector<vector<int>>visited(rows,vector<int>(cols,0));
+        int oneCount=0;
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                if(grid[i][j]==1){
+                    oneCount++;
                 }
-                if ((i == 0 || j == 0 || i == m - 1 || j == n - 1) &&
-                    grid[i][j] == 1) {
-                    q.push({i, j});
-                    visited[i][j] = 1;
+                if((i==0 || i==rows-1 || j==0 || j==cols-1) && grid[i][j]==1){
+                    q.push({i,j});
+                    visited[i][j]=1;
+                    oneCount--;
                 }
             }
         }
-        while (!q.empty()) {
-            int row = q.front().first;
-            int col = q.front().second;
+        while(!q.empty()){
+            pair<int,int>top = q.front();
             q.pop();
-            one_count--;
-            // up
-            if (row - 1 >= 0 && !visited[row - 1][col] && grid[row-1][col]==1) {
-                q.push({row - 1, col});
-                visited[row - 1][col] = 1;
-            } // Left
-            if (col - 1 >= 0 && !visited[row][col - 1] && grid[row][col-1]==1) {
-                q.push({row, col - 1});
-                visited[row][col - 1] = 1;
+            int row=top.first,col=top.second;
+            if(row>0 && grid[row-1][col]==1 && !visited[row-1][col]){
+                visited[row-1][col]=1;
+                q.push({row-1,col});
+                oneCount--;
             }
-
-            // Right
-            if (col + 1 < n && !visited[row][col + 1] && grid[row][col+1]==1) {
-                q.push({row, col + 1});
-                visited[row][col + 1] = 1;
+            if(row<rows-1 && grid[row+1][col]==1 && !visited[row+1][col]){
+                visited[row+1][col]=1;
+                q.push({row+1,col});
+                oneCount--;
             }
-
-            // Down
-            if (row + 1 < m && !visited[row + 1][col] && grid[row+1][col]==1) {
-                q.push({row + 1, col});
-                visited[row + 1][col] = 1;
+            if(col>0 && grid[row][col-1]==1 && !visited[row][col-1]){
+                visited[row][col-1]=1;
+                q.push({row,col-1});
+                oneCount--;
+            }
+            if(col<cols-1 && grid[row][col+1]==1 && !visited[row][col+1]){
+                visited[row][col+1]=1;
+                q.push({row,col+1});
+                oneCount--;
             }
         }
-        return one_count;
+        return oneCount;
     }
 };
