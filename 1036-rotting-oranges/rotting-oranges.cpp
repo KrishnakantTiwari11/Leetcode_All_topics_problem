@@ -1,58 +1,47 @@
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
+        queue<tuple<int, int, int>> q;
+        int fresh = 0, maxTime = 0;
         int rows = grid.size(), cols = grid[0].size();
-        vector<vector<int>> visited(rows, vector<int>(cols, 0));
-        int fresh = 0, res = 0;
-        queue<pair<int, pair<int, int>>> q;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (grid[i][j] == 1) {
                     fresh++;
                 } else if (grid[i][j] == 2) {
-                    q.push({0, {i, j}});
-                    visited[i][j] = 1;
+                    q.push({i, j, 0});
                 }
             }
         }
         while (!q.empty()) {
-            int time = q.front().first;
-            int row = q.front().second.first;
-            int col = q.front().second.second;
+            tuple<int,int,int>top = q.front();
             q.pop();
-            res = max(res, time);
-            // down
-            if (row + 1 < rows && !visited[row + 1][col] &&
-                grid[row + 1][col] == 1) {
-                q.push({time+1, {row + 1, col}});
+            int row = get<0>(top), col = get<1>(top), time = get<2>(top);
+            maxTime = max(maxTime,time);
+            if(row>0 && grid[row-1][col]==1){
+                q.push({row-1,col,time+1});
+                grid[row-1][col]=2;
                 fresh--;
-                visited[row + 1][col] = 1;
             }
-            // right
-            if (col + 1 < cols && !visited[row][col + 1] &&
-                grid[row][col + 1] == 1) {
-                q.push({time+1, {row, col + 1}});
+            if(row<rows-1 && grid[row+1][col]==1){
+                q.push({row+1,col,time+1});
+                grid[row+1][col]=2;
                 fresh--;
-                visited[row][col + 1] = 1;
             }
-            // up
-            if (row - 1 >= 0 && !visited[row - 1][col] &&
-                grid[row - 1][col] == 1) {
-                q.push({time+1, {row - 1, col}});
+            if(col>0 && grid[row][col-1]==1){
+                q.push({row,col-1,time+1});
+                grid[row][col-1]=2;
                 fresh--;
-                visited[row - 1][col] = 1;
             }
-
-            // left
-            if (col - 1 >= 0 && !visited[row][col - 1] &&
-                grid[row][col - 1] == 1) {
-                q.push({time+1, {row, col - 1}});
+            if(col<cols-1 && grid[row][col+1]==1){
+                q.push({row,col+1,time+1});
+                grid[row][col+1]=2;
                 fresh--;
-                visited[row][col - 1] = 1;
             }
         }
-        if (fresh == 0)
-            return res;
+        if(fresh<=0){
+            return maxTime;
+        }
         return -1;
     }
 };
