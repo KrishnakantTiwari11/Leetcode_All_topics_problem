@@ -3,11 +3,12 @@
  * @param {*} classFunction
  * @return {boolean}
  */
-var checkIfInstanceOf = function(obj, classFunction) {
-    if(obj==null || typeof classFunction !=="function")return false;
+var checkIfInstanceOf = function (obj, classFunction) {
+    if (obj == null || typeof classFunction !== "function") return false;
     let comp = obj.__proto__;
-    while(comp!==null){
-        if(comp === classFunction.prototype){
+    while (comp !== null) {
+        console.log("Hello")
+        if (comp === classFunction.prototype) {
             return true;
         }
         comp = comp.__proto__;
