@@ -1,44 +1,39 @@
 class Solution {
 public:
+    bool isSubstr(vector<int> str, vector<int> tar, string target) {
+        for (int i = 0; i < 58; i++) {
+            if (tar[i] > 0 && str[i] < tar[i])
+                return false;
+        }
+        return true;
+    }
     string minWindow(string s, string t) {
-        unordered_map<char,int>t_freq;
-        unordered_map<char,int>window_freq;
-        for(auto ch:t)
-        {
-            t_freq[ch]++;
-        }
-        int min_len=INT_MAX;
-        int formed=0,required=t_freq.size();
-        int left=0,right=0,min_left=0;
-        while(right<s.size())
-        {
-            char c=s[right];
-            window_freq[c]++;
-            if(t_freq.find(c)!=t_freq.end() && window_freq[c]==t_freq[c])
-            {
-                formed++;
-            }
-            while(formed==required && left<=right)
-            {
-                char c=s[left];
-                if(right-left+1<min_len)
-                {
-                    min_left=left;
-                    min_len=right-left+1;
-                }
-                window_freq[c]--;
-                if(t_freq.find(c)!=t_freq.end() && window_freq[c]<t_freq[c])
-                {
-                    formed--;
-                }
-                left++;
-            }
-            right++;
-        }
-        if(min_len==INT_MAX)
-        {
+        int tLen = t.length(), sLen = s.length(), l = 0, minStart = 0,
+            minLen = INT_MAX;
+        if (t == s)
+            return s;
+        if (tLen > sLen)
             return "";
+        string res = "";
+        vector<int> sArr(58, 0);
+        vector<int> tArr(58, 0);
+        for (auto ch : t) {
+            tArr[ch - 'A']++;
         }
-        return s.substr(min_left,min_len);
+        for (int r = 0; r < sLen; r++) {
+            int currCharInd = s[r] - 'A';
+            sArr[currCharInd]++;
+
+            while (l <= r && isSubstr(sArr, tArr, t)) {
+                int currLen = r - l + 1;
+                if (currLen < minLen) {
+                    minLen = currLen;
+                    minStart = l;
+                }
+                sArr[s[l] - 'A']--;
+                l++;
+            }
+        }
+        return minLen == INT_MAX ? "" : s.substr(minStart, minLen);
     }
 };
