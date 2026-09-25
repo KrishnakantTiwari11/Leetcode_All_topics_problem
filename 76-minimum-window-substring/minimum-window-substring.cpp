@@ -1,15 +1,8 @@
 class Solution {
 public:
-    bool isSubstr(vector<int> str, vector<int> tar, string target) {
-        for (int i = 0; i < 58; i++) {
-            if (tar[i] > 0 && str[i] < tar[i])
-                return false;
-        }
-        return true;
-    }
     string minWindow(string s, string t) {
         int tLen = t.length(), sLen = s.length(), l = 0, minStart = 0,
-            minLen = INT_MAX;
+            formed = 0, required = tLen, minLen = INT_MAX;
         if (t == s)
             return s;
         if (tLen > sLen)
@@ -22,15 +15,27 @@ public:
         }
         for (int r = 0; r < sLen; r++) {
             int currCharInd = s[r] - 'A';
+            if (tArr[currCharInd] > 0 &&
+                sArr[currCharInd] < tArr[currCharInd]) {
+                formed++;
+            }
             sArr[currCharInd]++;
-
-            while (l <= r && isSubstr(sArr, tArr, t)) {
+            while (l <= r && formed == required) {
                 int currLen = r - l + 1;
+
                 if (currLen < minLen) {
                     minLen = currLen;
                     minStart = l;
                 }
-                sArr[s[l] - 'A']--;
+
+                int leftCurrInd = s[l] - 'A';
+
+                if (tArr[leftCurrInd] > 0 &&
+                    sArr[leftCurrInd] == tArr[leftCurrInd]) {
+                    formed--;
+                }
+
+                sArr[leftCurrInd]--;
                 l++;
             }
         }
