@@ -22,20 +22,16 @@ public:
             sArr[currCharInd]++;
             while (l <= r && formed == required) {
                 int currLen = r - l + 1;
-
                 if (currLen < minLen) {
                     minLen = currLen;
                     minStart = l;
                 }
-
                 int leftCurrInd = s[l] - 'A';
-
                 if (tArr[leftCurrInd] > 0 &&
                     sArr[leftCurrInd] == tArr[leftCurrInd]) {
                     formed--;
                 }
-
-                sArr[leftCurrInd]--;
+                sArr[s[l] - 'A']--;
                 l++;
             }
         }
